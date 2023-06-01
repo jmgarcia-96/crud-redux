@@ -9,6 +9,16 @@
       "id": 2,
       "nombre": "Jugo de Naranja",
       "precio": "1"
+    },
+    {
+      "nombre": "Mod",
+      "precio": 1,
+      "id": 3
+    },
+    {
+      "nombre": "Producto nuevo",
+      "precio": 250,
+      "id": 4
     }
   ]
 }

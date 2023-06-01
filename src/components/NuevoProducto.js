@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // Actions de redux
 import { crearNuevoProductoAction } from "../actions/productoActions";
+import { mostrarAlerta, ocultarAlertaAction } from "../actions/alertaActions";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const NuevoProducto = () => {
@@ -13,6 +14,7 @@ const NuevoProducto = () => {
 
   const cargando = useSelector((state) => state.productos.loading);
   const error = useSelector((state) => state.productos.error);
+  const alerta = useSelector((state) => state.alerta.alerta);
 
   const agregarProducto = (producto) => {
     dispatch(crearNuevoProductoAction(producto));
@@ -22,12 +24,17 @@ const NuevoProducto = () => {
     e.preventDefault();
     // Validar formulario
     if (nombre.trim === "" || precio <= 0) {
-      console.log("Todos los campos son obligatorios");
+      const alerta = {
+        msg: "Todos los campos son obligatorios",
+        classes: "alert alert-danger text-center text-uppercase p3",
+      };
+      dispatch(mostrarAlerta(alerta));
       return;
     }
 
     // Crear el nuevo producto
     agregarProducto({ nombre, precio });
+    dispatch(ocultarAlertaAction());
     navigate("/");
   };
   return (
@@ -37,6 +44,8 @@ const NuevoProducto = () => {
           <h2 className="text-center mb-4 font-weight-bold">
             Agregar Nuevo Producto
           </h2>
+
+          {alerta && <p className={alerta.classes}>{alerta.msg}</p>}
 
           <form onSubmit={handleSubmitNuevoProducto}>
             <div className="form-group">
